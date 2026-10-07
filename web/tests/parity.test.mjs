@@ -10,7 +10,7 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
 import { argmax, generate, sampleToken, seededRandom, StorySession } from "../js/generate.js";
-import { TinyGPT } from "../js/model.js";
+import { VakModel } from "../js/model.js";
 import { runSelfTest } from "../js/selftest.js";
 import { Tokenizer } from "../js/tokenizer.js";
 
@@ -25,7 +25,7 @@ function loadModel(name) {
   const buffer = bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength);
   const parity = JSON.parse(readFileSync(join(MODELS, name, "parity.json"), "utf8"));
   return {
-    model: new TinyGPT(manifest, buffer),
+    model: new VakModel(manifest, buffer),
     tokenizer: new Tokenizer(manifest.tokenizer.vocab, manifest.tokenizer.merges),
     parity,
   };

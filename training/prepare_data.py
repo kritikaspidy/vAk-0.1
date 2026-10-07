@@ -41,7 +41,7 @@ def download(name: str, dest: Path, max_mb: float) -> None:
         print(f"  {dest.name} already downloaded ({dest.stat().st_size / MB:.0f} MB)")
         return
     limit = int(max_mb * MB)
-    request = urllib.request.Request(BASE_URL + name, headers={"User-Agent": "tiny-lm-prepare/1.0"})
+    request = urllib.request.Request(BASE_URL + name, headers={"User-Agent": "vak-prepare/0.1"})
     partial = dest.with_suffix(".part")
     try:
         with urllib.request.urlopen(request, timeout=60) as response, open(partial, "wb") as out:

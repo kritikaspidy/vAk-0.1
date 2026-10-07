@@ -51,7 +51,7 @@ function halfToFloat32(bits) {
   return out;
 }
 
-export class TinyGPT {
+export class VakModel {
   /**
    * manifest: the parsed model.json. buffer: the ArrayBuffer of weights.bin.
    */
@@ -107,7 +107,7 @@ export class TinyGPT {
         return response.arrayBuffer();
       }),
     ]);
-    return { model: new TinyGPT(manifest, buffer), manifest };
+    return { model: new VakModel(manifest, buffer), manifest };
   }
 
   /** Forget everything read so far. */

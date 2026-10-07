@@ -1,6 +1,8 @@
-# Tiny LM: a language model trained from scratch
+# vAk: a language model trained from scratch
 
 A small GPT-style language model, built and trained from scratch, with a browser demo that shows what the model considered for every word it writes. No pretrained weights, no AI APIs, and no machine-learning libraries in the browser.
+
+This is **vAk-0.1**, the first version: 3.1M parameters, trained on short children's stories.
 
 ![The demo page: the story on the left with less likely words shaded, and on the right the model's probabilities for one word](docs/demo.png)
 

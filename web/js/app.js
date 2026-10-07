@@ -2,12 +2,12 @@
 // show what the model considered for every word.
 
 import { StorySession } from "./generate.js";
-import { TinyGPT } from "./model.js";
+import { VakModel } from "./model.js";
 import { runSelfTest } from "./selftest.js";
 import { Tokenizer } from "./tokenizer.js";
 
 // ---------------------------------------------------------------- settings
-const REPO_URL = ""; // e.g. "https://github.com/your-name/tiny-lm"; the footer link appears once this is set
+const REPO_URL = "https://github.com/kritikaspidy/vAk-0.1"; // the "Source code" link in the footer; leave empty to hide it
 const AUTHOR = { name: "Kritika Garg", url: "https://kritikaatech.vercel.app/" };
 
 const MAX_TOKENS = 300; // longest story the page will write
@@ -382,7 +382,7 @@ async function loadModel(name, listing) {
   renderInspector();
 
   try {
-    const loaded = await TinyGPT.load(`models/${name}`);
+    const loaded = await VakModel.load(`models/${name}`);
     const parity = await fetch(`models/${name}/parity.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     if (ticket !== loadTicket) return; // the reader picked another model meanwhile
 
