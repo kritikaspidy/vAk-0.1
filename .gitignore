@@ -1,0 +1,24 @@
+# Secrets - never commit API keys
+.env
+.env.*
+
+# Files from the first version of this project: kept on my computer, not published
+agent.py
+.env.example
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Downloaded and generated data (rebuild with training/prepare_data.py)
+data/
+
+# Model weights are large; logs and configs in runs/ are kept
+runs/**/ckpt.pt
+
+# macOS / editors
+.DS_Store
+.vscode/
+.idea/

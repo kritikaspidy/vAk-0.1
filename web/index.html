@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiny LM: a language model trained from scratch</title>
+  <meta name="description" content="A small language model trained from scratch, running entirely in your browser. Watch it write a story one word at a time and see what else it considered.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23256abf'/%3E%3Crect x='7' y='17' width='4' height='8' rx='1' fill='white'/%3E%3Crect x='14' y='11' width='4' height='14' rx='1' fill='white'/%3E%3Crect x='21' y='7' width='4' height='18' rx='1' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><rect class="bar" x="7" y="17" width="4" height="8" rx="1"/><rect class="bar" x="14" y="11" width="4" height="14" rx="1"/><rect class="bar" x="21" y="7" width="4" height="18" rx="1"/></svg>
+        <span>Tiny LM</span>
+      </div>
+      <div class="top-right">
+        <span id="badge" class="badge" hidden></span>
+        <label class="sr-only" for="model">Model</label>
+        <select id="model" hidden></select>
+      </div>
+    </header>
+
+    <section class="hero">
+      <h1>Watch a tiny language model write a story, one word at a time.</h1>
+      <p class="lede">I trained this model from scratch on children's stories. It runs entirely in your browser, with no server and no AI service behind it. <span id="facts"></span></p>
+    </section>
+
+    <section id="empty" class="card notice" hidden>
+      <h2>No model found</h2>
+      <p>Export a trained model first, then reload this page:</p>
+      <pre><code>python training/export.py</code></pre>
+    </section>
+
+    <section id="failed" class="card notice" hidden>
+      <h2>The model could not be loaded</h2>
+      <p id="failed-text"></p>
+    </section>
+
+    <main id="app" class="workspace" hidden>
+      <section class="card story-card" aria-labelledby="prompt-label">
+        <label id="prompt-label" for="prompt">Start the story</label>
+        <div class="prompt-line">
+          <input id="prompt" type="text" value="Once upon a time" autocomplete="off" spellcheck="false" maxlength="300">
+          <button id="primary" type="button" class="primary" disabled>Write a story</button>
+        </div>
+        <div class="toolbar">
+          <div class="presets">
+            <span class="toolbar-label">Try:</span>
+            <button type="button" class="chip" data-prompt="Once upon a time">Once upon a time</button>
+            <button type="button" class="chip" data-prompt="Lily found a">Lily found a</button>
+            <button type="button" class="chip" data-prompt="The little dragon">The little dragon</button>
+            <button type="button" class="chip" data-prompt="&quot;Let's play,&quot; said">"Let's play," said</button>
+          </div>
+          <div class="speed" role="radiogroup" aria-label="Writing speed">
+            <span class="toolbar-label">Speed</span>
+            <div class="segmented">
+              <label><input type="radio" name="speed" value="slow"><span>Slow</span></label>
+              <label><input type="radio" name="speed" value="normal" checked><span>Normal</span></label>
+              <label><input type="radio" name="speed" value="fast"><span>Fast</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div id="story" class="story" tabindex="0" aria-label="The story. Click a word, or use the left and right arrow keys, to see what else the model considered."></div>
+
+        <div class="story-foot">
+          <div class="legend" aria-hidden="true">
+            <span class="swatch u1"></span><span class="swatch u2"></span><span class="swatch u3"></span>
+            <span>Stronger shading = a less likely pick</span>
+          </div>
+          <label class="toggle" title="The model reads and writes tokens: whole common words, or pieces of rarer ones."><input type="checkbox" id="boundaries"> Show tokens</label>
+          <span id="count" class="count"></span>
+        </div>
+      </section>
+
+      <aside class="card inspector" aria-labelledby="inspector-title">
+        <h2 id="inspector-title">Next word</h2>
+        <p id="inspector-text" class="inspector-text"></p>
+        <div id="bars" class="bars"></div>
+        <p id="inspector-hint" class="hint"></p>
+        <div class="inspector-actions">
+          <button id="step" type="button" disabled>One word</button>
+          <button id="back" type="button" hidden>Back to the end</button>
+        </div>
+
+        <div class="controls">
+          <div class="control">
+            <label for="temperature">Creativity <output id="temperature-value">0.8</output></label>
+            <input id="temperature" type="range" min="0" max="1.5" step="0.05" value="0.8">
+            <div class="range-ends"><span>Predictable</span><span>Surprising</span></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <section class="how" aria-labelledby="how-title">
+      <h2 id="how-title">How it works</h2>
+      <div class="how-grid">
+        <article>
+          <h3>Trained from scratch</h3>
+          <p>A GPT-style transformer written in PyTorch and trained on a laptop, using short stories written in a young child's vocabulary. No pretrained weights. <span id="how-model"></span></p>
+        </article>
+        <article>
+          <h3>Guessing the next token</h3>
+          <p>The model only ever answers one question: given the story so far, how likely is each possible next token? A token is a common word or a piece of a rarer one. The bars show its answer, and one token is drawn from them.</p>
+        </article>
+        <article>
+          <h3>Running in your browser</h3>
+          <p>The tokenizer and the transformer are re-implemented in plain JavaScript with no libraries. Nothing you type leaves this page. <span id="how-check"></span></p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span id="credit"></span>
+      <a id="repo" href="#" hidden>Source code on GitHub</a>
+    </footer>
+  </div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

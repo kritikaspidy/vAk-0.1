@@ -1,0 +1,25 @@
+{
+  "preset": "small",
+  "run_name": null,
+  "max_iters": 6000,
+  "batch_size": 64,
+  "lr": 0.001,
+  "warmup": 200,
+  "weight_decay": 0.1,
+  "dropout": 0.0,
+  "eval_every": 250,
+  "eval_batches": 40,
+  "seed": 1337,
+  "device": "mps",
+  "resume": false,
+  "parameters": 3101568,
+  "model": {
+    "vocab_size": 2048,
+    "block_size": 256,
+    "n_layer": 6,
+    "n_head": 6,
+    "n_embd": 192,
+    "dropout": 0.0
+  },
+  "train_tokens": 27917598
+}

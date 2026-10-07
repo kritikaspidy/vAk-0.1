@@ -1,0 +1,14 @@
+[
+  {
+    "name": "tiny",
+    "parameters": 1067264,
+    "val_loss": 2.1928,
+    "megabytes": 2.1
+  },
+  {
+    "name": "small",
+    "parameters": 3101568,
+    "val_loss": 1.6374,
+    "megabytes": 6.2
+  }
+]
